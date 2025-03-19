@@ -94,6 +94,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         title: 'Login failed',
         description: error instanceof Error ? error.message : 'An unknown error occurred',
       });
+      throw error; // Re-throw to let the login component handle it
     } finally {
       setLoading(false);
     }

@@ -26,7 +26,8 @@ const Login = () => {
     try {
       await login(username, password);
     } catch (err) {
-      // Error handling is done in the auth context
+      // Error is displayed via toast in auth context
+      setError(err instanceof Error ? err.message : "Login failed. Please try again.");
     }
   };
 
@@ -61,6 +62,7 @@ const Login = () => {
                 <p><strong>Demo accounts:</strong></p>
                 <p>Username: admin | Password: admin123</p>
                 <p>Username: manager | Password: manager123</p>
+                <p>Username: employee | Password: employee123</p>
               </div>
               
               <div className="space-y-2">
@@ -76,6 +78,7 @@ const Login = () => {
                     className="pl-10 bg-white/50 border-coffee-200 focus:border-coffee-400 focus:ring-coffee-400"
                     placeholder="Enter your username"
                     required
+                    autoComplete="username"
                   />
                 </div>
               </div>
@@ -93,6 +96,7 @@ const Login = () => {
                     className="pl-10 bg-white/50 border-coffee-200 focus:border-coffee-400 focus:ring-coffee-400"
                     placeholder="Enter your password"
                     required
+                    autoComplete="current-password"
                   />
                 </div>
               </div>
