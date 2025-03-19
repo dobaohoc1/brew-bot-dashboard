@@ -5,16 +5,29 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Coffee, Lock, User } from "lucide-react";
+import { Coffee, Lock, User, AlertCircle } from "lucide-react";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const { login, loading } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await login(username, password);
+    setError("");
+    
+    if (!username || !password) {
+      setError("Username and password are required");
+      return;
+    }
+    
+    try {
+      await login(username, password);
+    } catch (err) {
+      // Error handling is done in the auth context
+    }
   };
 
   return (
@@ -37,6 +50,19 @@ const Login = () => {
           </CardHeader>
           <form onSubmit={handleSubmit}>
             <CardContent className="space-y-4">
+              {error && (
+                <Alert variant="destructive">
+                  <AlertCircle className="h-4 w-4" />
+                  <AlertDescription>{error}</AlertDescription>
+                </Alert>
+              )}
+              
+              <div className="text-xs text-amber-600 border border-amber-200 bg-amber-50 p-2 rounded">
+                <p><strong>Demo accounts:</strong></p>
+                <p>Username: admin | Password: admin123</p>
+                <p>Username: manager | Password: manager123</p>
+              </div>
+              
               <div className="space-y-2">
                 <Label htmlFor="username" className="text-coffee-700">Username</Label>
                 <div className="relative">

@@ -26,6 +26,13 @@ const AuthContext = createContext<AuthContextType>({
   isAuthenticated: false,
 });
 
+// Mock user database for testing purposes
+const mockUsers = [
+  { id: '1', username: 'admin', password: 'admin123', role: 'admin' },
+  { id: '2', username: 'manager', password: 'manager123', role: 'manager' },
+  { id: '3', username: 'employee', password: 'employee123', role: 'employee' },
+];
+
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
@@ -33,12 +40,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   useEffect(() => {
     const checkAuth = async () => {
-      const token = localStorage.getItem('auth_token');
-      if (token) {
+      const storedUser = localStorage.getItem('user');
+      if (storedUser) {
         try {
-          const { user } = await authApi.getCurrentUser();
-          setUser(user);
+          const parsedUser = JSON.parse(storedUser);
+          setUser(parsedUser);
         } catch (error) {
+          localStorage.removeItem('user');
           localStorage.removeItem('auth_token');
         }
       }
@@ -51,13 +59,34 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const login = async (username: string, password: string) => {
     setLoading(true);
     try {
-      const { token, user } = await authApi.login(username, password);
+      // In a real app, this would be an API call
+      // Simulate API delay
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Find user in mock database
+      const foundUser = mockUsers.find(
+        u => u.username === username && u.password === password
+      );
+      
+      if (!foundUser) {
+        throw new Error('Invalid username or password');
+      }
+      
+      // Create user object without password
+      const { password: _, ...userWithoutPassword } = foundUser;
+      
+      // Create mock token
+      const token = `mock-token-${Date.now()}`;
+      
+      // Store in localStorage
       localStorage.setItem('auth_token', token);
-      setUser(user);
+      localStorage.setItem('user', JSON.stringify(userWithoutPassword));
+      
+      setUser(userWithoutPassword);
       navigate('/dashboard');
       toast({
         title: 'Logged in successfully',
-        description: `Welcome back, ${user.username}!`,
+        description: `Welcome back, ${userWithoutPassword.username}!`,
       });
     } catch (error) {
       toast({
@@ -71,7 +100,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const logout = () => {
-    authApi.logout();
+    localStorage.removeItem('auth_token');
+    localStorage.removeItem('user');
     setUser(null);
     navigate('/login');
     toast({
