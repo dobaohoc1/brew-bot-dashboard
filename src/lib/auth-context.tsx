@@ -1,6 +1,5 @@
 
 import React, { createContext, useState, useContext, useEffect } from 'react';
-import { authApi } from './api';
 import { useNavigate } from 'react-router-dom';
 import { toast } from '@/components/ui/use-toast';
 
@@ -40,17 +39,22 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   useEffect(() => {
     const checkAuth = async () => {
-      const storedUser = localStorage.getItem('user');
-      if (storedUser) {
-        try {
+      try {
+        const storedUser = localStorage.getItem('user');
+        if (storedUser) {
           const parsedUser = JSON.parse(storedUser);
           setUser(parsedUser);
-        } catch (error) {
-          localStorage.removeItem('user');
-          localStorage.removeItem('auth_token');
+          console.log('User authenticated from localStorage:', parsedUser);
+        } else {
+          console.log('No user found in localStorage');
         }
+      } catch (error) {
+        console.error('Error checking authentication:', error);
+        localStorage.removeItem('user');
+        localStorage.removeItem('auth_token');
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
 
     checkAuth();
@@ -59,9 +63,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const login = async (username: string, password: string) => {
     setLoading(true);
     try {
-      // In a real app, this would be an API call
+      console.log('Attempting login for user:', username);
+      
       // Simulate API delay
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await new Promise(resolve => setTimeout(resolve, 500));
       
       // Find user in mock database
       const foundUser = mockUsers.find(
@@ -69,6 +74,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       );
       
       if (!foundUser) {
+        console.error('Login failed: Invalid credentials');
         throw new Error('Invalid username or password');
       }
       
@@ -83,12 +89,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       localStorage.setItem('user', JSON.stringify(userWithoutPassword));
       
       setUser(userWithoutPassword);
+      console.log('Login successful for user:', userWithoutPassword);
+      
+      // Navigate to dashboard
       navigate('/dashboard');
+      
       toast({
         title: 'Logged in successfully',
         description: `Welcome back, ${userWithoutPassword.username}!`,
       });
     } catch (error) {
+      console.error('Login error:', error);
       toast({
         variant: 'destructive',
         title: 'Login failed',
@@ -101,6 +112,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const logout = () => {
+    console.log('Logging out user');
     localStorage.removeItem('auth_token');
     localStorage.removeItem('user');
     setUser(null);

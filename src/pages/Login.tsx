@@ -7,12 +7,20 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Coffee, Lock, User, AlertCircle } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const { login, loading } = useAuth();
+  const { login, loading, isAuthenticated } = useAuth();
+  const navigate = useNavigate();
+
+  // Redirect if already authenticated
+  if (isAuthenticated) {
+    navigate('/dashboard');
+    return null;
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -24,8 +32,10 @@ const Login = () => {
     }
     
     try {
+      console.log("Submitting login form with username:", username);
       await login(username, password);
     } catch (err) {
+      console.error("Login error in component:", err);
       // Error is displayed via toast in auth context
       setError(err instanceof Error ? err.message : "Login failed. Please try again.");
     }
