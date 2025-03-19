@@ -62,36 +62,33 @@ const Dashboard = () => {
           value="$12,456" 
           icon={<DollarSign className="h-4 w-4" />} 
           trend="+12.3% from last month"
-          className="animate-slideInFromLeft"
-          />
+          className="animate-slideInFromLeft delay-100"
+        />
         <StatCard 
           title="Customers" 
           value="1,234" 
           icon={<Users className="h-4 w-4" />} 
           trend="+5.3% new customers"
-          className="animate-slideInFromLeft"
-          style={{animationDelay: "0.1s"}}
-          />
+          className="animate-slideInFromLeft delay-200"
+        />
         <StatCard 
           title="Products" 
           value="25" 
           icon={<Coffee className="h-4 w-4" />} 
           trend="3 new this month"
-          className="animate-slideInFromLeft"
-          style={{animationDelay: "0.2s"}}
-          />
+          className="animate-slideInFromLeft delay-300"
+        />
         <StatCard 
           title="Orders" 
           value="846" 
           icon={<ShoppingBag className="h-4 w-4" />} 
           trend="+18.2% from last week"
-          className="animate-slideInFromLeft"
-          style={{animationDelay: "0.3s"}}
-          />
+          className="animate-slideInFromLeft delay-400"
+        />
       </div>
       
       <div className="grid gap-4 md:grid-cols-2">
-        <Card className="animate-slideInFromBottom" style={{animationDelay: "0.4s"}}>
+        <Card className="animate-slideInFromBottom delay-500">
           <CardHeader>
             <CardTitle>Weekly Sales</CardTitle>
           </CardHeader>
@@ -110,7 +107,7 @@ const Dashboard = () => {
           </CardContent>
         </Card>
         
-        <Card className="animate-slideInFromBottom" style={{animationDelay: "0.5s"}}>
+        <Card className="animate-slideInFromBottom delay-600">
           <CardHeader>
             <CardTitle>Popular Products</CardTitle>
           </CardHeader>
@@ -131,13 +128,13 @@ const Dashboard = () => {
       </div>
       
       <div className="grid gap-4 md:grid-cols-3">
-        <Card className="md:col-span-2 animate-slideInFromBottom" style={{animationDelay: "0.6s"}}>
+        <Card className="md:col-span-2 animate-slideInFromBottom delay-700">
           <CardHeader>
             <CardTitle>Recent Orders</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              {[1, 2,, 3, 4].map((_, index) => (
+              {[1, 2, 3, 4].map((_, index) => (
                 <div key={index} className="flex justify-between items-center p-3 bg-muted/30 rounded-md">
                   <div>
                     <div className="font-medium">Order #{Math.floor(Math.random() * 10000)}</div>
@@ -153,7 +150,7 @@ const Dashboard = () => {
           </CardContent>
         </Card>
         
-        <Card className="animate-slideInFromBottom" style={{animationDelay: "0.7s"}}>
+        <Card className="animate-slideInFromBottom delay-800">
           <CardHeader>
             <CardTitle>Inventory Status</CardTitle>
           </CardHeader>
