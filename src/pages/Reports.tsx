@@ -33,7 +33,8 @@ import {
   BarChart3, 
   PieChart as PieChartIcon,
   TrendingUp,
-  Calendar
+  Calendar,
+  Plus
 } from "lucide-react";
 
 // Mock sales data
