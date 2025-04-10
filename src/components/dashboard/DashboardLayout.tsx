@@ -1,3 +1,4 @@
+
 import { useState, useEffect, ReactNode } from "react";
 import { Link, useLocation, useNavigate, Outlet } from "react-router-dom";
 import { useAuth } from "@/lib/auth-context";
@@ -16,6 +17,7 @@ import {
   User,
   MessageSquare,
   UserCog,
+  BarChart3
 } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
@@ -66,27 +68,27 @@ export const DashboardLayout = ({ children }: { children?: ReactNode }) => {
     },
     {
       icon: <Users size={20} />,
-      label: "Customers",
+      label: "Khách hàng",
       href: "/dashboard/customers",
     },
     {
       icon: <UserCog size={20} />,
-      label: "Employees",
+      label: "Nhân viên",
       href: "/dashboard/employees",
     },
     {
       icon: <Package size={20} />,
-      label: "Products",
+      label: "Sản phẩm",
       href: "/dashboard/products",
     },
     {
       icon: <ShoppingCart size={20} />,
-      label: "Orders",
+      label: "Đơn hàng",
       href: "/dashboard/orders",
     },
     {
-      icon: <FileText size={20} />,
-      label: "Reports",
+      icon: <BarChart3 size={20} />,
+      label: "Báo cáo",
       href: "/dashboard/reports",
     },
     {
@@ -96,7 +98,7 @@ export const DashboardLayout = ({ children }: { children?: ReactNode }) => {
     },
     {
       icon: <Settings size={20} />,
-      label: "Settings",
+      label: "Cài đặt",
       href: "/dashboard/settings",
     },
   ];
@@ -168,7 +170,7 @@ export const DashboardLayout = ({ children }: { children?: ReactNode }) => {
               onClick={() => logout()}
             >
               <LogOut size={18} />
-              <span>Log Out</span>
+              <span>Đăng xuất</span>
             </Button>
           </div>
         </div>

@@ -16,6 +16,9 @@ import Chatbot from "@/pages/Chatbot";
 import Employees from "@/pages/Employees";
 import Settings from "@/pages/Settings";
 import NotFound from "@/pages/NotFound";
+import Customers from "@/pages/Customers";
+import Orders from "@/pages/Orders";
+import Reports from "@/pages/Reports";
 
 const queryClient = new QueryClient();
 
@@ -36,6 +39,9 @@ const App = () => (
               <Route element={<DashboardLayout />}>
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/dashboard/products" element={<Products />} />
+                <Route path="/dashboard/customers" element={<Customers />} />
+                <Route path="/dashboard/orders" element={<Orders />} />
+                <Route path="/dashboard/reports" element={<Reports />} />
                 <Route path="/dashboard/employees" element={<Employees />} />
                 <Route path="/dashboard/chatbot" element={<Chatbot />} />
                 <Route path="/dashboard/settings" element={<Settings />} />
