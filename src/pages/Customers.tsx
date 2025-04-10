@@ -66,6 +66,7 @@ const mockCustomers: KhachHang[] = [
   },
 ];
 
+// Define the form schema
 const customerSchema = z.object({
   tenKH: z.string().min(2, {
     message: "Tên khách hàng phải có ít nhất 2 ký tự.",
@@ -81,6 +82,9 @@ const customerSchema = z.object({
   }),
 });
 
+// Create type that matches the schema
+type CustomerFormValues = z.infer<typeof customerSchema>;
+
 const Customers = () => {
   const [customers, setCustomers] = useState<KhachHang[]>(mockCustomers);
   const [open, setOpen] = useState(false);
@@ -89,7 +93,7 @@ const Customers = () => {
   );
   const [isEditMode, setIsEditMode] = useState(false);
 
-  const form = useForm<z.infer<typeof customerSchema>>({
+  const form = useForm<CustomerFormValues>({
     resolver: zodResolver(customerSchema),
     defaultValues: {
       tenKH: "",
@@ -101,7 +105,14 @@ const Customers = () => {
 
   useEffect(() => {
     if (selectedCustomer) {
-      form.reset(selectedCustomer);
+      // Cast the gioiTinh to the enum type to ensure type safety
+      const formValues: CustomerFormValues = {
+        tenKH: selectedCustomer.tenKH,
+        SDT: selectedCustomer.SDT,
+        diaChiKH: selectedCustomer.diaChiKH,
+        gioiTinh: selectedCustomer.gioiTinh as "Nam" | "Nữ",
+      };
+      form.reset(formValues);
       setIsEditMode(true);
     } else {
       form.reset({
@@ -126,7 +137,7 @@ const Customers = () => {
     return "KH" + Math.random().toString(36).substring(2, 9).toUpperCase();
   };
 
-  const onSubmit = (values: z.infer<typeof customerSchema>) => {
+  const onSubmit = (values: CustomerFormValues) => {
     if (isEditMode && selectedCustomer) {
       // Update existing customer
       setCustomers(
@@ -144,10 +155,10 @@ const Customers = () => {
       // Create new customer
       const newCustomer: KhachHang = {
         maKH: generateId(), // or however IDs are generated
-        tenKH: values.tenKH || "", // Ensure required fields have default values
-        SDT: values.SDT || "",
-        diaChiKH: values.diaChiKH || "",
-        gioiTinh: values.gioiTinh || "Nam", // Default value if not provided
+        tenKH: values.tenKH,
+        SDT: values.SDT,
+        diaChiKH: values.diaChiKH,
+        gioiTinh: values.gioiTinh,
       };
       setCustomers([...customers, newCustomer]);
       toast({
