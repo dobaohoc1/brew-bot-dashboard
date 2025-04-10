@@ -35,6 +35,8 @@ const formSchema = z.object({
   avatar: z.string().optional()
 });
 
+type FormValues = z.infer<typeof formSchema>;
+
 interface EmployeeFormProps {
   employee?: Employee;
   onSubmit: (data: Employee) => void;
@@ -44,7 +46,7 @@ export const EmployeeForm = ({ employee, onSubmit }: EmployeeFormProps) => {
   const isEditing = !!employee;
   
   // Initialize the form
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       fullName: "",
@@ -73,11 +75,20 @@ export const EmployeeForm = ({ employee, onSubmit }: EmployeeFormProps) => {
   }, [employee, form]);
 
   // Handle form submission
-  const handleSubmit = (values: z.infer<typeof formSchema>) => {
-    onSubmit({
-      id: employee?.id || "",
-      ...values
-    });
+  const handleSubmit = (values: FormValues) => {
+    // Ensure all required properties are included and not optional
+    const employeeData: Employee = {
+      id: employee?.id || String(Date.now()),
+      fullName: values.fullName,
+      position: values.position,
+      phoneNumber: values.phoneNumber,
+      email: values.email,
+      startDate: values.startDate,
+      status: values.status,
+      avatar: values.avatar || "/placeholder.svg"
+    };
+    
+    onSubmit(employeeData);
   };
 
   return (
