@@ -66,3 +66,14 @@ export interface Quantity {
 export interface HoaDon {
   maHoaDon: string;
 }
+
+export interface Employee {
+  id: string;
+  fullName: string;
+  position: string;
+  phoneNumber: string;
+  email: string;
+  startDate: string;
+  status: string;
+  avatar?: string;
+}

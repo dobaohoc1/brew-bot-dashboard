@@ -1,6 +1,5 @@
-
 import { useState, useEffect, ReactNode } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate, Outlet } from "react-router-dom";
 import { useAuth } from "@/lib/auth-context";
 import { Button } from "@/components/ui/button";
 import {
@@ -16,6 +15,7 @@ import {
   X,
   User,
   MessageSquare,
+  UserCog,
 } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
@@ -43,7 +43,7 @@ const NavItem = ({ icon, label, href, active }: NavItemProps) => (
   </Link>
 );
 
-export const DashboardLayout = ({ children }: { children: ReactNode }) => {
+export const DashboardLayout = ({ children }: { children?: ReactNode }) => {
   const { logout, user } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
@@ -68,6 +68,11 @@ export const DashboardLayout = ({ children }: { children: ReactNode }) => {
       icon: <Users size={20} />,
       label: "Customers",
       href: "/dashboard/customers",
+    },
+    {
+      icon: <UserCog size={20} />,
+      label: "Employees",
+      href: "/dashboard/employees",
     },
     {
       icon: <Package size={20} />,
@@ -196,7 +201,9 @@ export const DashboardLayout = ({ children }: { children: ReactNode }) => {
 
         {/* Page Content */}
         <main className="flex-1 overflow-auto">
-          <div className="animate-fadeIn container py-6">{children}</div>
+          <div className="animate-fadeIn container py-6">
+            {children || <Outlet />}
+          </div>
         </main>
       </div>
 
