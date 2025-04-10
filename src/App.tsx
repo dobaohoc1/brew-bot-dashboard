@@ -14,6 +14,7 @@ import Dashboard from "@/pages/Dashboard";
 import Products from "@/pages/Products";
 import Chatbot from "@/pages/Chatbot";
 import Employees from "@/pages/Employees";
+import Settings from "@/pages/Settings";
 import NotFound from "@/pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -37,6 +38,7 @@ const App = () => (
                 <Route path="/dashboard/products" element={<Products />} />
                 <Route path="/dashboard/employees" element={<Employees />} />
                 <Route path="/dashboard/chatbot" element={<Chatbot />} />
+                <Route path="/dashboard/settings" element={<Settings />} />
                 {/* Add other dashboard routes here */}
               </Route>
             </Route>
