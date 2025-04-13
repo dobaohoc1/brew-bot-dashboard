@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { DataTable } from "@/components/tables/DataTable";
 import { KhachHang } from "@/lib/types";
@@ -66,7 +67,7 @@ const mockCustomers: KhachHang[] = [
   },
 ];
 
-// Define the form schema
+// Define the form schema with strict gender types
 const customerSchema = z.object({
   tenKH: z.string().min(2, {
     message: "Tên khách hàng phải có ít nhất 2 ký tự.",
@@ -84,6 +85,9 @@ const customerSchema = z.object({
 
 // Create type that matches the schema
 type CustomerFormValues = z.infer<typeof customerSchema>;
+
+// Update the KhachHang interface in types.ts if needed 
+// But we can work around it here for now with proper type casting
 
 const Customers = () => {
   const [customers, setCustomers] = useState<KhachHang[]>(mockCustomers);
