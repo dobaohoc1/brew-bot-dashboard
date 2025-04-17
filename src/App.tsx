@@ -13,6 +13,7 @@ import Landing from "@/pages/Landing";
 import Login from "@/pages/Login";
 import Dashboard from "@/pages/Dashboard";
 import Products from "@/pages/Products";
+import ProductList from "@/pages/ProductList";
 import Chatbot from "@/pages/Chatbot";
 import Employees from "@/pages/Employees";
 import Settings from "@/pages/Settings";
@@ -40,6 +41,7 @@ const App = () => (
               <Route element={<DashboardLayout />}>
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/dashboard/products" element={<Products />} />
+                <Route path="/dashboard/products/list" element={<ProductList />} />
                 <Route path="/dashboard/customers" element={<Customers />} />
                 <Route path="/dashboard/orders" element={<Orders />} />
                 <Route path="/dashboard/reports" element={<Reports />} />

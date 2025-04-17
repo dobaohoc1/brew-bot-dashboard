@@ -1,4 +1,3 @@
-
 export interface NguoiDung {
   maKhachHang: string;
   tenKhachHang: string;
@@ -39,6 +38,11 @@ export interface LoaiSanPham {
 export interface SanPham {
   maSanPham: string;
   tenSanPham: string;
+  loaiSanPham?: string;
+  giaBan?: string;
+  trangThai?: string;
+  moTa?: string;
+  hinhAnh?: string;
 }
 
 export interface PhieuKhuyenMai {
