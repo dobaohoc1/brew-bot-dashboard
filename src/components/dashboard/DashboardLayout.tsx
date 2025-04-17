@@ -1,4 +1,3 @@
-
 import { useState, useEffect, ReactNode } from "react";
 import { Link, useLocation, useNavigate, Outlet } from "react-router-dom";
 import { useAuth } from "@/lib/auth-context";
@@ -23,6 +22,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { Navbar } from "./Navbar";
 
 interface NavItemProps {
   icon: ReactNode;
@@ -111,68 +111,66 @@ export const DashboardLayout = ({ children }: { children?: ReactNode }) => {
           sidebarOpen ? "translate-x-0" : "-translate-x-full"
         } ${isMobile ? "lg:relative" : "relative"}`}
       >
-        <div className="flex h-full flex-col">
-          {/* Sidebar Header */}
-          <div className="flex h-16 items-center justify-between px-4">
-            <Link
-              to="/dashboard"
-              className="flex items-center gap-2 text-xl font-semibold text-primary"
-            >
-              <Coffee size={28} />
-              <span>Coffee Manager</span>
-            </Link>
-            {isMobile && (
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => setSidebarOpen(false)}
-              >
-                <X size={20} />
-              </Button>
-            )}
-          </div>
-
-          <Separator />
-
-          {/* Navigation */}
-          <ScrollArea className="flex-1 px-3 py-4">
-            <nav className="flex flex-col gap-1">
-              {navItems.map((item) => (
-                <NavItem
-                  key={item.href}
-                  icon={item.icon}
-                  label={item.label}
-                  href={item.href}
-                  active={location.pathname === item.href}
-                />
-              ))}
-            </nav>
-          </ScrollArea>
-
-          <Separator />
-
-          {/* User Profile & Logout */}
-          <div className="p-4">
-            <div className="mb-4 flex items-center gap-3">
-              <Avatar className="h-10 w-10 bg-primary text-primary-foreground">
-                <AvatarFallback>
-                  {user?.username?.charAt(0).toUpperCase() || "U"}
-                </AvatarFallback>
-              </Avatar>
-              <div>
-                <p className="text-sm font-medium">{user?.username || "Admin"}</p>
-                <p className="text-xs text-muted-foreground">{user?.role || "Administrator"}</p>
-              </div>
-            </div>
+        {/* Sidebar Header */}
+        <div className="flex h-16 items-center justify-between px-4">
+          <Link
+            to="/dashboard"
+            className="flex items-center gap-2 text-xl font-semibold text-primary"
+          >
+            <Coffee size={28} />
+            <span>Coffee Manager</span>
+          </Link>
+          {isMobile && (
             <Button
-              variant="outline"
-              className="w-full justify-start gap-2"
-              onClick={() => logout()}
+              variant="ghost"
+              size="icon"
+              onClick={() => setSidebarOpen(false)}
             >
-              <LogOut size={18} />
-              <span>Đăng xuất</span>
+              <X size={20} />
             </Button>
+          )}
+        </div>
+
+        <Separator />
+
+        {/* Navigation */}
+        <ScrollArea className="flex-1 px-3 py-4">
+          <nav className="flex flex-col gap-1">
+            {navItems.map((item) => (
+              <NavItem
+                key={item.href}
+                icon={item.icon}
+                label={item.label}
+                href={item.href}
+                active={location.pathname === item.href}
+              />
+            ))}
+          </nav>
+        </ScrollArea>
+
+        <Separator />
+
+        {/* User Profile & Logout */}
+        <div className="p-4">
+          <div className="mb-4 flex items-center gap-3">
+            <Avatar className="h-10 w-10 bg-primary text-primary-foreground">
+              <AvatarFallback>
+                {user?.username?.charAt(0).toUpperCase() || "U"}
+              </AvatarFallback>
+            </Avatar>
+            <div>
+              <p className="text-sm font-medium">{user?.username || "Admin"}</p>
+              <p className="text-xs text-muted-foreground">{user?.role || "Administrator"}</p>
+            </div>
           </div>
+          <Button
+            variant="outline"
+            className="w-full justify-start gap-2"
+            onClick={() => logout()}
+          >
+            <LogOut size={18} />
+            <span>Đăng xuất</span>
+          </Button>
         </div>
       </aside>
 
@@ -190,15 +188,7 @@ export const DashboardLayout = ({ children }: { children?: ReactNode }) => {
             </Button>
           )}
 
-          <div className="flex items-center ml-auto gap-4">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => navigate("/dashboard/profile")}
-            >
-              <User size={20} />
-            </Button>
-          </div>
+          <Navbar />
         </header>
 
         {/* Page Content */}
